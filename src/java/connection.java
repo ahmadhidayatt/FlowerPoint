@@ -18,7 +18,7 @@ public class connection {
        private Connection conn = null;
 
     public connection() {
-        String URL = "jdbc:mysql://localhost:3306/ticket_management";
+        String URL = "jdbc:mysql://localhost:3306/db_floshop";
         String USER = "root";
         String PASSWD = "";
 

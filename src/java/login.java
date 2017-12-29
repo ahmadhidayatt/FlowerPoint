@@ -86,25 +86,26 @@ public class login extends HttpServlet {
         String pass = request.getParameter("password");
         conn = new connection().getConn();
         try {
-            PreparedStatement pst = conn.prepareStatement("Select * from tb_pegawai where nik=? and password=?");
+            PreparedStatement pst = conn.prepareStatement("Select * from tb_user where username=? and password=?");
             pst.setString(1, user);
             pst.setString(2, pass);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                if (rs.getString("jabatan") == "" || rs.getString("status") == "n") {
+                if (rs.getString("level") == "" || rs.getString("status") == "n") {
                     out.println("account anda tidak aktif");
                 } else {
-                    String jabatan = rs.getString("jabatan").toString().trim();
+                    String level = rs.getString("level").toString().trim();
                     HttpSession session = request.getSession();
                     session.setAttribute("nama", rs.getString("nama"));
-                    session.setAttribute("nik", rs.getString("nik"));
+//                    session.setAttribute("nik", rs.getString("nik"));
                     session.setAttribute("status", rs.getString("status"));
-                    session.setAttribute("tanggal", rs.getString("tanggal"));
+                    session.setAttribute("tgl", rs.getString("tgl"));
                     session.setAttribute("alamat", rs.getString("alamat"));
-                    session.setAttribute("jabatan", rs.getString("jabatan"));
-                    session.setAttribute("no_telp", rs.getString("no_telp"));
-                    session.setAttribute("regional", rs.getString("regional"));
-                    out.println(jabatan);
+                    session.setAttribute("level", rs.getString("level"));
+                    session.setAttribute("no_hp", rs.getString("no_hp"));
+                    session.setAttribute("lat", rs.getString("lat"));
+                    session.setAttribute("lang", rs.getString("lang"));
+                    out.println(level);
                 }
 
             } else {
