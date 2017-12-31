@@ -21,11 +21,11 @@ $(document).ready(function () {
               console.log(result)
                     if(result === "admin"){
                          alert("welcome admin");
-//                          window.location.href="index.html?code="+result;
+                          window.location.href="index.html?code="+result;
                     }
                     else if(result ==="supplier"){
                          alert("welcome supplier");
-//                          window.location.href="index.html?code="+result;
+                          window.location.href="index.html?code="+result;
                     }
                      else if(result ==="customer"){
                          alert("welcome customer");

@@ -96,6 +96,7 @@ public class login extends HttpServlet {
                 } else {
                     String level = rs.getString("level").toString().trim();
                     HttpSession session = request.getSession();
+                    session.setAttribute("id", rs.getString("id_user"));
                     session.setAttribute("nama", rs.getString("nama"));
 //                    session.setAttribute("nik", rs.getString("nik"));
                     session.setAttribute("status", rs.getString("status"));
@@ -104,7 +105,7 @@ public class login extends HttpServlet {
                     session.setAttribute("level", rs.getString("level"));
                     session.setAttribute("no_hp", rs.getString("no_hp"));
                     session.setAttribute("lat", rs.getString("lat"));
-                    session.setAttribute("lang", rs.getString("lang"));
+                    session.setAttribute("lang", rs.getString("longi"));
                     out.println(level);
                 }
 

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,13 +18,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -39,8 +46,8 @@ public class helper_pegawai extends HttpServlet {
     public final String insert_pegawai = "1";
     public final String update_pegawai = "2";
     public final String retrieve_foto = "3";
-     public final String retrieve_pegawai_id = "4";
-    
+    public final String retrieve_pegawai_id = "4";
+
     private Connection conn;
 
     /**
@@ -110,34 +117,38 @@ public class helper_pegawai extends HttpServlet {
                 response.setContentType("text/html");
 
                 PrintWriter out = response.getWriter();
- 
-                String query = "{call retrieve_pegawai()}";
-                st = conn.prepareCall(query);
-                rs = st.executeQuery();
+                PreparedStatement pst = conn.prepareStatement("SELECT * FROM TB_USER");
+                rs = pst.executeQuery();
                 int i = 0;
                 JSONArray jArray = new JSONArray();
                 while (rs.next()) {
 
-                    String nik = rs.getString("nik");
+                    String id = rs.getString("id_user");
                     String nama = rs.getString("nama");
-                    String status = rs.getString("status");
-                    String tanggal = rs.getString("tanggal");
                     String alamat = rs.getString("alamat");
-                    String jabatan = rs.getString("jabatan");
-                    String no_telp = rs.getString("no_telp");
-                    String regional = rs.getString("regional");
-                    
+                    String no_hp = rs.getString("no_hp");
+                    String tgl = rs.getString("tgl");
+                    String lat = rs.getString("lat");
+                    String longi = rs.getString("longi");
+                    String level = rs.getString("level");
+                    String username = rs.getString("username");
+                    String password = rs.getString("password");
+                    String status = rs.getString("status");
+                    String email = rs.getString("email");
 
                     JSONObject arrayObj = new JSONObject();
 
-                    arrayObj.put("nik", nik);
+                    arrayObj.put("id", id);
                     arrayObj.put("nama", nama);
-                    arrayObj.put("status", status);
-                    arrayObj.put("tanggal", tanggal);
                     arrayObj.put("alamat", alamat);
-                    arrayObj.put("jabatan", jabatan);
-                    arrayObj.put("no_telp", no_telp);
-                    arrayObj.put("regional", regional);
+                    arrayObj.put("tgl", tgl);
+                    arrayObj.put("lat", lat);
+                    arrayObj.put("longi", longi);
+                    arrayObj.put("level", level);
+                    arrayObj.put("username", username);
+                     arrayObj.put("password", password);
+                    arrayObj.put("status", status);
+                     arrayObj.put("email", email);
                    
 
                     jArray.add(i, arrayObj);
@@ -190,7 +201,7 @@ public class helper_pegawai extends HttpServlet {
                 stmt.close();
                 response.getOutputStream().close();
 //                hasil = jArray.toString();
-            }else if (code.equals(retrieve_pegawai_id)) {
+            } else if (code.equals(retrieve_pegawai_id)) {
                 response.setContentType("text/html");
 
                 PrintWriter out = response.getWriter();
@@ -210,7 +221,6 @@ public class helper_pegawai extends HttpServlet {
                     String jabatan = rs.getString("jabatan");
                     String no_telp = rs.getString("no_telp");
                     String regional = rs.getString("regional");
-                    
 
                     JSONObject arrayObj = new JSONObject();
 
@@ -222,7 +232,6 @@ public class helper_pegawai extends HttpServlet {
                     arrayObj.put("jabatan", jabatan);
                     arrayObj.put("no_telp", no_telp);
                     arrayObj.put("regional", regional);
-                   
 
                     jArray.add(i, arrayObj);
                     i++;
@@ -231,6 +240,47 @@ public class helper_pegawai extends HttpServlet {
                 rs.close();
                 hasil = jArray.toString();
                 out.print(hasil);
+            } else if (code.equals(insert_pegawai)) {
+                conn.setAutoCommit(false);
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+
+                String nama = request.getParameter("nama");
+                String no_hp = request.getParameter("no_hp");
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                String email = request.getParameter("email");
+                String tanggal = request.getParameter("tanggal");
+                String lat = request.getParameter("lat");
+                String longi = request.getParameter("long");
+                String level = request.getParameter("level");
+                String status = request.getParameter("status");
+                String alamat = request.getParameter("alamat");
+                try {
+                    PreparedStatement pst = conn.prepareStatement("insert   tb_user (nama,no_hp,username,password,email,tgl,lat,longi,alamat,level,status) values (?,?,?,?,?,?,?,?,?,?,?)");
+                    pst.setString(1, nama.toString().trim());
+                    pst.setString(2, no_hp.toString().trim());
+                    pst.setString(3, username.toString().trim());
+                    pst.setString(4, password.toString().trim());
+                    pst.setString(5, email.toString().trim());
+                    pst.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+                    pst.setString(7, lat.toString().trim());
+                    pst.setString(8, longi.toString().trim());
+                    pst.setString(9, alamat.toString().trim());
+                    pst.setString(10, level.toString().trim());
+                    pst.setString(11, status.toString().trim());
+                    int i = pst.executeUpdate();
+                    if (i > 0) {
+                        out.println("data berhasil ditambahkan");
+                        conn.commit();
+                    } else {
+                        out.println("terdapat kesalahan dalam penginputap data");
+                        conn.rollback();
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    out.println(e.toString());
+                }
             }
 
             conn.close();

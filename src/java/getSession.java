@@ -76,20 +76,20 @@ public class getSession extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
         String nama = (String) session.getAttribute("nama");
-        String nik = (String) session.getAttribute("nik");
+        String id = (String) session.getAttribute("id");
 
         String tanggal = (String) session.getAttribute("tanggal");
         String alamat = (String) session.getAttribute("alamat");
-        String jabatan = (String) session.getAttribute("jabatan");
+        String level = (String) session.getAttribute("level");
         String no_telp = (String) session.getAttribute("no_telp");
         String regional = (String) session.getAttribute("regional");
         JSONArray jArray = new JSONArray();
         JSONObject arrayObj = new JSONObject();
         arrayObj.put("nama", nama);
-        arrayObj.put("nik", nik);
+        arrayObj.put("id", id);
         arrayObj.put("tanggal", tanggal);
         arrayObj.put("alamat", alamat);
-        arrayObj.put("jabatan", jabatan);
+        arrayObj.put("level", level);
         arrayObj.put("no_telp", no_telp);
         arrayObj.put("regional", regional);
 

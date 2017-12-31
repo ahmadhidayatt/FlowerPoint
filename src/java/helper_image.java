@@ -124,22 +124,20 @@ public class helper_image extends HttpServlet {
                 hasil = "sukses";
                 out.print(hasil);
             } else if (code.equals(retrieve_image)) {
-                String id_ticket = request.getParameter("id_ticket");
-                String query = "SELECT id_ticket,kartu_tertelan FROM tb_ticket where id_ticket = " + id_ticket;
+                String id = request.getParameter("id");
+                String query = "SELECT * FROM tb_produk where id_produk = " + id;
 
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(query);
                 int i = 0;
                 JSONArray jArray = new JSONArray();
                 while (rs.next()) {
-                    String fileName = rs.getString("id_ticket");
-                     Blob blob = rs.getBlob("kartu_tertelan");
+                     Blob blob = rs.getBlob("gambar");
                     byte[] imgData = blob.getBytes(1, (int) blob.length());
                     String encoded = javax.xml.bind.DatatypeConverter
                             .printBase64Binary(imgData);
                     response.setContentType("image/png");
                     response.getOutputStream().print(encoded);
-
                 }
 
 //                hasil = jArray.toString();

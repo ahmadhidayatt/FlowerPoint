@@ -38,7 +38,7 @@
     </servlet>
     <servlet>
         <servlet-name>helper_ticket</servlet-name>
-        <servlet-class>helper_ticket</servlet-class>
+        <servlet-class>helper_product</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>getSession</servlet-name>
@@ -85,10 +85,6 @@
         <url-pattern>/helper_pegawai</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>helper_ticket</servlet-name>
-        <url-pattern>/helper_ticket</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>getSession</servlet-name>
         <url-pattern>/getSession</url-pattern>
     </servlet-mapping>
@@ -103,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>helper_image</servlet-name>
         <url-pattern>/helper_image</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>helper_ticket</servlet-name>
+        <url-pattern>/helper_product</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
