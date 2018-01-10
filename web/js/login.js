@@ -15,7 +15,7 @@ $(document).ready(function () {
                     username: username,
                     password: password
                 },function (data, status) {
-                    alert("Data: " + data.length + data  + "\nStatus: " + status);
+                    alert( data);
                   var result = $.trim(data);
                     //belom bener if nya
               console.log(result)

@@ -4,6 +4,10 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShoutoutServlet</servlet-name>
+        <servlet-class>ShoutoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>helper_ticket</servlet-name>
         <url-pattern>/helper_product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShoutoutServlet</servlet-name>
+        <url-pattern>/ShoutoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
